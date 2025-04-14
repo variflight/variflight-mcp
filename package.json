@@ -1,0 +1,35 @@
+{
+  "name": "@variflight-ai/variflight-mcp",
+  "version": "0.0.1",
+  "author": "Variflight(https://mcp.variflight.com)",
+  "license": "ISC",
+  "description": "Variflight MCP Server",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "variflight-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod 755 dist/index.js",
+    "start": "node dist/index.js",
+    "dev": "npx tsx index.ts"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.8.0",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.19.3",
+    "typescript": "^5.3.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
