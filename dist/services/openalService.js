@@ -19,10 +19,12 @@ export class OpenAlService {
         }
         return response.json();
     }
-    async getFlightsByDepArr(dep, arr, date) {
+    async getFlightsByDepArr(dep, depcity, arr, arrcity, date) {
         return this.makeRequest('flights', {
             dep,
+            depcity,
             arr,
+            arrcity,
             date,
         });
     }
@@ -66,5 +68,12 @@ export class OpenAlService {
         if (arr)
             params.arr = arr;
         return this.makeRequest('happiness', params);
+    }
+    async searchFlightItineraries(depCityCode, arrCityCode, depDate) {
+        return this.makeRequest('searchFlightItineraries', {
+            "depCityCode": depCityCode,
+            "arrCityCode": arrCityCode,
+            "depDate": depDate
+        });
     }
 }

@@ -10,21 +10,33 @@ const server = new McpServer({
     version: "0.0.1",
 });
 // 注册工具: 通过出发地和目的地查询航班
-server.tool("searchFlightsByDepArr", "Search flights by departure and arrival airports and date. Date format: YYYY-MM-DD. IMPORTANT: For today's date, you MUST use getTodayDate tool instead of hardcoding any date. Airport codes should be IATA 3-letter codes (e.g. PEK for Beijing, SHA for Shanghai). ", {
+server.tool("searchFlightsByDepArr", "Search for flights between airports or cities by date. For cities with multiple airports, use depcity and arrcity parameters; otherwise use dep and arr parameters. Date must be in YYYY-MM-DD format. For today's date, use the getTodayDate tool. All airport/city codes must be valid IATA 3-letter codes (e.g.BJS for city of Beijing, PEK for Beijing Capital Airport).", {
     dep: z.string()
         .length(3)
         .regex(/^[A-Z]{3}$/)
-        .describe("Departure airport IATA 3-letter code (e.g. PEK for Beijing, CAN for Guangzhou)"),
+        .describe("Departure airport IATA 3-letter code (e.g. PEK for Beijing, CAN for Guangzhou)")
+        .optional(),
+    depcity: z.string()
+        .length(3)
+        .regex(/^[A-Z]{3}$/)
+        .describe("Departure city IATA 3-letter code (e.g. BJS for Beijing, CAN for Guangzhou)")
+        .optional(),
     arr: z.string()
         .length(3)
         .regex(/^[A-Z]{3}$/)
-        .describe("Arrival airport IATA 3-letter code (e.g. SHA for Shanghai, HFE for Hefei)"),
+        .describe("Arrival airport IATA 3-letter code (e.g. SHA for Shanghai, HFE for Hefei)")
+        .optional(),
+    arrcity: z.string()
+        .length(3)
+        .regex(/^[A-Z]{3}$/)
+        .describe("Arrival city IATA 3-letter code (e.g. SHA for Shanghai, BJS for Beijing)")
+        .optional(),
     date: z.string()
         .regex(/^\d{4}-\d{2}-\d{2}$/)
         .describe("Flight date in YYYY-MM-DD format. IMPORTANT: If user input only cotains month and date, you should use getTodayDate tool to get the year. For today's date, use getTodayDate tool instead of hardcoding")
-}, async ({ dep, arr, date }) => {
+}, async ({ dep, depcity, arr, arrcity, date }) => {
     try {
-        const flights = await flightService.getFlightsByDepArr(dep, arr, date);
+        const flights = await flightService.getFlightsByDepArr(dep, depcity, arr, arrcity, date);
         return {
             content: [
                 {
@@ -208,6 +220,37 @@ server.tool('getFutureWeatherByAirport', 'Get airport future weather for 3days (
                 {
                     type: "text",
                     text: JSON.stringify(weather, null, 2)
+                }
+            ]
+        };
+    }
+    catch (error) {
+        console.error('Error getting airport weather:', error);
+        return {
+            content: [{ type: "text", text: `Error: ${error.message}` }],
+            isError: true
+        };
+    }
+});
+// 注册工具：搜索航班方案
+server.tool('searchFlightItineraries', 'Search for purchasable flight options and the lowest price using the departure city three-letter code, arrival city three-letter code, and departure date. (e.g. BJS for Beijing, SHA for Shanghai, CAN for Guangzhou, HFE for Hefei).', {
+    depCityCode: z.string()
+        .regex(/^[A-Z]{3}$/)
+        .describe("Departure city 3-letter code (e.g. BJS for Beijing, SHA for Shanghai, CAN for Guangzhou, HFE for Hefei)"),
+    depDate: z.string()
+        .regex(/^\d{4}-\d{2}-\d{2}$/)
+        .describe("Departure city date (format: YYYY-MM-DD, e.g., 2025-07-04).IMPORTANT: If user input only cotains month and date, you should use getTodayDate tool to get the year. For today's date, use getTodayDate tool instead of hardcoding"),
+    arrCityCode: z.string()
+        .regex(/^[A-Z]{3}$/)
+        .describe("Arrival city 3-letter code (e.g. BJS for Beijing, SHA for Shanghai, CAN for Guangzhou, HFE for Hefei)"),
+}, async ({ depCityCode, depDate, arrCityCode }) => {
+    try {
+        const flightItineraries = await flightService.searchFlightItineraries(depCityCode, arrCityCode, depDate);
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: JSON.stringify(flightItineraries, null, 2)
                 }
             ]
         };

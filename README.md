@@ -1,6 +1,6 @@
 # Variflight MCP Server
 
-A Model Context Protocol (MCP) server implementation for Variflight flight information services. This server provides various tools to query flight information, weather data, and flight comfort metrics.
+A Model Context Protocol (MCP) server implementation for VariFlight flight information services. This server provides various tools to query flight information, weather data, and flight comfort metrics.
 
 # Variflight API Key
 
@@ -18,7 +18,7 @@ To use the Variflight MCP server, you need to have a Variflight API key. You can
                 "@variflight-ai/variflight-mcp"
             ],
             "env": {
-                "VARIFLIGHT_API_KEY": ""
+                "VARIFLIGHT_API_KEY": "your_api_key_here"
             }
         }
     }
@@ -81,6 +81,16 @@ getFutureWeatherByAirport({
 })
 ```
 
+### 7. Search Flight Itineraries
+Search for purchasable flight options and get the lowest prices:
+```typescript
+searchFlightItineraries({
+  depCityCode: "BJS",  // Beijing
+  arrCityCode: "SHA",  // Shanghai
+  depDate: "2025-04-20"
+})
+```
+
 ## License
 
 ISC License - See [LICENSE](LICENSE) for details.
@@ -91,5 +101,5 @@ Variflight (https://mcp.variflight.com)
 
 ## Version
 
-Current version: 0.0.1
+Current version: 0.0.2
 

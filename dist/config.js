@@ -7,6 +7,6 @@ export const config = {
     },
     api: {
         baseUrl: process.env.VARIFLIGHT_API_URL || 'https://mcp.variflight.com/api/v1/mcp/data',
-        apiKey: process.env.X_VARIFLIGHT_KEY,
+        apiKey: process.env.X_VARIFLIGHT_KEY || process.env.VARIFLIGHT_API_KEY,
     },
 };
