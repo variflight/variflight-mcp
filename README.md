@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/variflight-variflight-mcp-badge.png)](https://mseep.ai/app/variflight-variflight-mcp)
+
 # Variflight MCP Server
 
 A Model Context Protocol (MCP) server implementation for VariFlight flight information services. This server provides various tools to query flight information, weather data, and flight comfort metrics.
