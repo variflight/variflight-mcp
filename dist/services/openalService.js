@@ -76,4 +76,12 @@ export class OpenAlService {
             "depDate": depDate
         });
     }
+    async getFlightPriceByCities(dep_city, arr_city, dep_date) {
+        return this.makeRequest('getFlightPriceByCities', {
+            dep_city,
+            arr_city,
+            dep_date,
+            price_mode: 'lowest'
+        });
+    }
 }

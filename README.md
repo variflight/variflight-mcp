@@ -28,7 +28,7 @@ To use the Variflight MCP server, you need to have a Variflight API key. You can
 ## Available Tools
 
 ### 1. Search Flights by Departure and Arrival
-Search flights between airports using IATA codes:
+Search direct flights by city or airport code on a specific date. Use city codes like `BJS` or exact airport codes like `PEK`, but do not mix city and airport codes for the same side:
 ```typescript
 searchFlightsByDepArr({
   dep: "PEK",  // Beijing
@@ -38,7 +38,7 @@ searchFlightsByDepArr({
 ```
 
 ### 2. Search Flights by Number
-Search flights using flight number:
+Search a specific flight by flight number and date:
 ```typescript
 searchFlightsByNumber({
   fnum: "MU2157",
@@ -47,7 +47,7 @@ searchFlightsByNumber({
 ```
 
 ### 3. Get Flight Transfer Information
-Find transfer options between cities:
+Search connecting flight options between departure and arrival cities:
 ```typescript
 getFlightTransferInfo({
   depcity: "BJS",
@@ -57,7 +57,7 @@ getFlightTransferInfo({
 ```
 
 ### 4. Flight Happiness Index
-Get detailed flight comfort metrics:
+Get comfort-focused details for a known flight, such as punctuality, aircraft type, cabin configuration, meals, and entertainment:
 ```typescript
 flightHappinessIndex({
   fnum: "MU2157",
@@ -66,7 +66,7 @@ flightHappinessIndex({
 ```
 
 ### 5. Real-time Aircraft Location
-Track aircraft location using registration number:
+Track realtime flight location using the aircraft registration number, also called tail number:
 ```typescript
 getRealtimeLocationByAnum({
   anum: "B2021"
@@ -74,7 +74,7 @@ getRealtimeLocationByAnum({
 ```
 
 ### 6. Airport Weather Forecast
-Get 3-day weather forecast for airports:
+Get the 3-day airport weather forecast:
 ```typescript
 getFutureWeatherByAirport({
   airport: "PEK"
@@ -82,12 +82,22 @@ getFutureWeatherByAirport({
 ```
 
 ### 7. Search Flight Itineraries
-Search for purchasable flight options and get the lowest prices:
+Get a natural-language summary with recommended flight options, overall lowest price, shortest duration, and several suggested itineraries:
 ```typescript
 searchFlightItineraries({
   depCityCode: "BJS",  // Beijing
   arrCityCode: "SHA",  // Shanghai
   depDate: "2025-04-20"
+})
+```
+
+### 8. Get Flight Prices by Cities
+Get structured raw sale-flight data between two cities, with each flight returning cabin-level prices:
+```typescript
+getFlightPriceByCities({
+  dep_city: "BJS",  // Beijing
+  arr_city: "SHA",  // Shanghai
+  dep_date: "2026-04-20"
 })
 ```
 
@@ -101,5 +111,4 @@ Variflight (https://mcp.variflight.com)
 
 ## Version
 
-Current version: 0.0.2
-
+Current version: 1.0.3

@@ -7,4 +7,5 @@ export declare class OpenAlService {
     getAirportWeather(airport: string): Promise<any>;
     getFlightHappinessIndex(fnum: string, date: string, dep?: string, arr?: string): Promise<any>;
     searchFlightItineraries(depCityCode: string, arrCityCode: string, depDate: string): Promise<any>;
+    getFlightPriceByCities(dep_city: string, arr_city: string, dep_date: string): Promise<any>;
 }

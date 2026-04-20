@@ -1,6 +1,7 @@
 {
   "name": "@variflight-ai/variflight-mcp",
-  "version": "0.0.3",
+  "version": "1.0.3",
+  "mcpName": "io.github.variflight/variflight-mcp",
   "author": "Variflight(https://mcp.variflight.com)",
   "license": "ISC",
   "description": "Variflight MCP Server",
