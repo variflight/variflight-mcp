@@ -56,6 +56,24 @@ getFlightTransferInfo({
 })
 ```
 
+`searchFlightsByDepArr` and `getFlightTransferInfo` also accept optional paging parameters. Busy routes can return dozens of results with many fields each, so use these to keep responses small:
+
+- `limit`: maximum number of results to return
+- `offset`: number of results to skip; pass `next_offset` from the previous response to get the next page. Each page is a separate billed call.
+- `detail`: `"summary"` returns only the core fields of each result; `"full"` (the default) returns every field
+
+When any of them is set, the response also includes `total`, `offset`, `returned` and, if more results exist, `next_offset`. Without them, the response is unchanged.
+
+```typescript
+searchFlightsByDepArr({
+  depcity: "BJS",
+  arrcity: "SHA",
+  date: "2024-03-20",
+  limit: 20,
+  detail: "summary"
+})
+```
+
 ### 4. Flight Happiness Index
 Get comfort-focused details for a known flight, such as punctuality, aircraft type, cabin configuration, meals, and entertainment:
 ```typescript

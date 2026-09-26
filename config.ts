@@ -5,7 +5,7 @@ dotenv.config();
 export const config = {
   server: {
     name: 'variflight-mcp',
-    version: '0.0.1',
+    version: '1.1.0',
   },
   api: {
     baseUrl: process.env.VARIFLIGHT_API_URL || 'https://mcp.variflight.com/api/v1/mcp/data',

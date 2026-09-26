@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { OpenAlService } from './services/openalService.js';
+import { FLIGHT_SUMMARY_FIELDS, TRANSFER_SUMMARY_FIELDS, shapeListResult } from './services/shape.js';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
@@ -10,7 +11,7 @@ const flightService = new OpenAlService();
 // 创建服务器
 const server = new McpServer({
   name: "variflight-mcp",
-  version: "1.0.3",
+  version: "1.1.0",
 });
 
 // 注册工具: 通过出发地和目的地查询航班
@@ -40,11 +41,22 @@ server.tool(
       .optional(),
     date: z.string()
       .regex(/^\d{4}-\d{2}-\d{2}$/)
-      .describe("Flight date in YYYY-MM-DD format. IMPORTANT: If the user input contains only month and day, use getTodayDate to determine the year. For today's date, use getTodayDate instead of hardcoding.")
+      .describe("Flight date in YYYY-MM-DD format. IMPORTANT: If the user input contains only month and day, use getTodayDate to determine the year. For today's date, use getTodayDate instead of hardcoding."),
+    limit: z.number().int().positive()
+      .describe("Optional. Maximum number of results to return. Omit to return all results.")
+      .optional(),
+    offset: z.number().int().nonnegative()
+      .describe("Optional. Number of results to skip, for fetching the next page. Use next_offset from the previous response. Each page is a separate billed call.")
+      .optional(),
+    detail: z.enum(["full", "summary"])
+      .describe("Optional. 'summary' returns only the core fields of each result; 'full' returns every field. Defaults to 'full'.")
+      .optional(),
   },
-  async ({ dep, depcity, arr, arrcity, date }) => {
+  async ({ dep, depcity, arr, arrcity, date, limit, offset, detail }) => {
     try {
-      const flights = await flightService.getFlightsByDepArr(dep, depcity, arr, arrcity, date);
+      const flights = shapeListResult(
+        await flightService.getFlightsByDepArr(dep, depcity, arr, arrcity, date),
+        { limit, offset, detail }, FLIGHT_SUMMARY_FIELDS);
       return {
         content: [
           {
@@ -122,10 +134,21 @@ server.tool(
       .length(3)
       .regex(/^[A-Z]{3}$/)
       .describe("Arrival city IATA 3-letter code (e.g. SHA for Shanghai, LAX for Los Angeles)"),
+    limit: z.number().int().positive()
+      .describe("Optional. Maximum number of results to return. Omit to return all results.")
+      .optional(),
+    offset: z.number().int().nonnegative()
+      .describe("Optional. Number of results to skip, for fetching the next page. Use next_offset from the previous response. Each page is a separate billed call.")
+      .optional(),
+    detail: z.enum(["full", "summary"])
+      .describe("Optional. 'summary' returns only the core fields of each result; 'full' returns every field. Defaults to 'full'.")
+      .optional(),
   },
-  async ({ depcity, arrcity, depdate }) => {
+  async ({ depcity, arrcity, depdate, limit, offset, detail }) => {
     try {
-      const flights = await flightService.getFlightTransferInfo(depcity, arrcity, depdate);
+      const flights = shapeListResult(
+        await flightService.getFlightTransferInfo(depcity, arrcity, depdate),
+        { limit, offset, detail }, TRANSFER_SUMMARY_FIELDS);
       return {
         content: [
           {
