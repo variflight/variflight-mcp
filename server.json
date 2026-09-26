@@ -1,8 +1,7 @@
 {
-  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.variflight/variflight-mcp",
   "description": "VariFlight's official MCP server provides tools to query flight, weather, comfort, and fare data.",
-  "status": "active",
   "repository": {
     "url": "https://github.com/variflight/variflight-mcp",
     "source": "github"
@@ -10,20 +9,20 @@
   "version": "1.1.0",
   "packages": [
     {
-      "registry_type": "npm",
-      "registry_base_url": "https://registry.npmjs.org",
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@variflight-ai/variflight-mcp",
       "version": "1.1.0",
       "transport": {
         "type": "stdio"
       },
-      "environment_variables": [
+      "environmentVariables": [
         {
+          "name": "VARIFLIGHT_API_KEY",
           "description": "Your API key for the service",
-          "is_required": true,
-          "format": "string",
-          "is_secret": true,
-          "name": "VARIFLIGHT_API_KEY"
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
         }
       ]
     }
