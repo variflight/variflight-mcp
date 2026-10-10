@@ -2,6 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.variflight/variflight-mcp",
   "description": "VariFlight's official MCP server provides tools to query flight, weather, comfort, and fare data.",
+  "title": "VariFlight Aviation MCP",
+  "websiteUrl": "https://ai.variflight.com/docs/aviation",
   "repository": {
     "url": "https://github.com/variflight/variflight-mcp",
     "source": "github"
@@ -23,6 +25,20 @@
           "isRequired": true,
           "isSecret": true,
           "format": "string"
+        }
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://ai.variflight.com/servers/aviation/mcp",
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "description": "API key from the VariFlight AI Open Platform console (ai.variflight.com); OAuth 2.1 clients can omit it and sign in instead",
+          "isRequired": false,
+          "isSecret": true
         }
       ]
     }

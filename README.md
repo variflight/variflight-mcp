@@ -2,9 +2,22 @@
 
 A Model Context Protocol (MCP) server implementation for VariFlight flight information services. This server provides various tools to query flight information, weather data, and flight comfort metrics.
 
+This package is the stdio distribution of **VariFlight Aviation MCP** on the [VariFlight AI Open Platform](https://ai.variflight.com). Full documentation, including client setup, tool reference and pricing: [ai.variflight.com/docs/aviation](https://ai.variflight.com/docs/aviation) ([中文](https://ai.variflight.com/zh/docs/aviation)).
+
 # Variflight API Key
 
-To use the Variflight MCP server, you need to have a Variflight API key. You can get it from [here](https://mcp.variflight.com).
+To use the Variflight MCP server, you need to have a Variflight API key. Sign up at [ai.variflight.com](https://ai.variflight.com) and create one in the console; new accounts receive ¥50 in trial credits.
+
+## Remote server
+
+The same tools are available as a remote MCP server over streamable HTTP, with no local process required:
+
+```bash
+claude mcp add --transport http variflight-aviation https://ai.variflight.com/servers/aviation/mcp \
+  --header "X-API-Key: YOUR_API_KEY"
+```
+
+Clients that support OAuth 2.1 can add `https://ai.variflight.com/servers/aviation/mcp` without a key and sign in when prompted.
 
 ## Installation
 
@@ -125,8 +138,8 @@ ISC License - See [LICENSE](LICENSE) for details.
 
 ## Author
 
-Variflight (https://mcp.variflight.com)
+Variflight (https://ai.variflight.com)
 
 ## Version
 
-Current version: 1.0.3
+Current version: 1.1.0
